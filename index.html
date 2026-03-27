@@ -1,306 +1,357 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>English Work</title>
-<style>
-:root {
-  --blue-btn: #0084ff; --blue-shd: #0056a3;
-  --yellow-btn: #ffcc00; --yellow-shd: #c29b00;
-  --orange-btn: #ff8c00; --orange-shd: #b36200;
-  --red-btn: #ff3e3e; --red-shd: #b32a2a;
-  --green-btn: #2ecc71; --green-shd: #27ae60;
-  --purple-btn: #a349ff; --purple-shd: #6a1bbf;
-  --cyan-btn: #00d2ff; --cyan-shd: #0099cc;
-  --pink-btn: #ff00ff; --pink-shd: #b300b3;
-  --darkblue-btn: #34495e; --darkblue-shd: #2c3e50;
-  --credit-color: #3399ff;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Collective | Vanguard Project</title>
+    <!-- Премиальный шрифт Inter -->
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #00ff87; /* Neo Mint */
+            --accent-glow: rgba(0, 255, 135, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --nav-glass: rgba(10, 10, 10, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-dim: #94a3b8;
+        }
 
-/* --- GENERAL --- */
-body {
-  margin: 0;
-  font-family: 'Arial Black', sans-serif;
-  background: #33CCFF;
-  color: white;
-  overflow-x: hidden;
-  user-select: none;
-  text-align: center;
-}
+        * { box-sizing: border-box; scroll-behavior: smooth; }
 
-/* --- PANTALLA DE CARGA --- */
-#loader {
-  position: fixed;
-  inset: 0;
-  background: black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  transition: opacity 1s ease;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-#loader.hidden { opacity: 0; pointer-events: none; }
+        /* Фоновое свечение */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #064e3b 0%, #050505 100%);
+            z-index: -1;
+            opacity: 0.4;
+        }
 
-#loader h1 { margin: 0; font-size: 5vw; }
-#loader h2 { margin: 0; font-size: 5vw; }
-#loader h3 { margin: 0; font-size: 5vw; }
+        /* --- GLASS NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1100px;
+            height: 60px;
+            background: var(--nav-glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-#loader .progress-bar {
-  width: 60%;
-  height: 20px;
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 2px solid #fff;
-  margin-top: 20px;
-}
+        .logo { 
+            font-weight: 900; 
+            font-size: 1rem; 
+            letter-spacing: -0.5px; 
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-#loader .progress-bar-inner {
-  width: 0%;
-  height: 100%;
-  background: #fff;
-  transition: width 0.2s;
-}
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { 
+            color: var(--text-dim); 
+            text-decoration: none; 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
 
-/* --- TOP BAR --- */
-.top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.7); padding: 10px 20px; border-bottom: 4px solid rgba(255,255,255,0.1); position: relative; z-index: 10; }
-.player-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 40px; border: 2px solid #fff; }
-.avatar-icon { width: 40px; height: 40px; background: #5dade2; border-radius: 50%; border: 2px solid #fff; display: flex; justify-content: center; align-items: center; }
-.stats-container { display: flex; gap: 10px; }
-.stat { font-size: 14px; display: flex; align-items: center; gap: 4px; text-shadow: 2px 2px #000; background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); }
+        /* Контейнер контента */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+        }
 
-/* --- SIDE MENUS --- */
-.side-menu-left { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 20; }
-.side-menu-right { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 20; }
-.left-bottom-container { position: absolute; bottom: 30px; left: 30px; display: flex; align-items: flex-end; gap: 15px; z-index: 30; }
-.right-bottom-container { position: absolute; bottom: 30px; right: 30px; display: flex; align-items: center; gap: 15px; z-index: 30; }
+        section {
+            max-width: 1100px;
+            width: 100%;
+            margin-bottom: 150px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
 
-/* --- BOTONES --- */
-.brawl-btn { font-family: 'Arial Black', sans-serif; text-transform: uppercase; color: white; border: 3px solid #000; border-radius: 12px; cursor: pointer; transition: transform 0.1s; position: relative; text-shadow: 2px 2px #000; padding: 10px 15px; font-size: 14px; min-width: 150px; }
-.brawl-btn:active { transform: translateY(4px); box-shadow: none !important; }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-.btn-blue { background: var(--blue-btn); box-shadow: 0 6px 0 var(--blue-shd); }
-.btn-yellow { background: var(--yellow-btn); box-shadow: 0 6px 0 var(--yellow-shd); color: #442200; text-shadow: none; }
-.btn-green { background: var(--green-btn); box-shadow: 0 6px 0 var(--green-shd); }
-.btn-cyan { background: var(--cyan-btn); box-shadow: 0 6px 0 var(--cyan-shd); }
-.btn-red { background: var(--red-btn); box-shadow: 0 6px 0 var(--red-shd); }
-.btn-darkblue { background: var(--darkblue-btn); box-shadow: 0 6px 0 var(--darkblue-shd); }
-.btn-pass-tall { background: var(--pink-btn); box-shadow: 0 10px 0 var(--pink-shd); padding: 40px 15px !important; min-width: 130px !important; font-size: 16px !important; }
-.btn-purple-missions { background: var(--purple-btn); box-shadow: 0 8px 0 var(--purple-shd); padding: 20px 25px; }
-.btn-mode { background: #5dade2; box-shadow: 0 8px 0 #2e86c1; padding: 15px 20px; min-width: 180px; font-size: 16px; }
-.btn-battle { background: var(--orange-btn); box-shadow: 0 10px 0 var(--orange-shd); font-size: 32px; padding: 20px 60px; }
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 0;
+        }
 
-/* --- MAIN DISPLAY --- */
-#main-menu { height: 100vh; display: flex; flex-direction: column; position: relative; overflow: visible; }
-.character-display { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-#main-img { height: 280px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4)); }
-#main-name { font-size: 40px; margin: 10px 0; font-style: italic; }
+        .badge {
+            background: rgba(0, 255, 135, 0.1);
+            color: var(--accent);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: 1px solid var(--accent);
+            margin-bottom: 30px;
+        }
 
-/* --- MODALES --- */
-.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 500; }
-.card-container { background: #2c3e50; padding: 30px; border-radius: 25px; width: 85%; max-width: 500px; border: 5px solid #fff; position: relative; max-height: 80vh; overflow-y: auto; }
-.close-x { position: absolute; top: -15px; right: -15px; background: var(--red-btn); width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 4px 0 var(--red-shd); }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
-.brawler-card { padding: 10px; border-radius: 15px; border: 3px solid #000; cursor: pointer; color:white; }
-.brawler-card img { width: 100%; border-radius: 10px; }
+        h1 {
+            font-size: clamp(3rem, 12vw, 7.5rem);
+            font-weight: 900;
+            margin: 0;
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            background: linear-gradient(180deg, #fff 50%, #475569);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* --- SUBMODOS SUPERVIVENCIA --- */
-.submode-panel { position: absolute; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; align-items: center; opacity: 0; transform: translateY(50px); transition: all 0.4s ease-out; z-index: 600; }
-.submode-panel.show { opacity: 1; transform: translateY(0); }
-.submode-panel button { min-width: 140px; font-size: 18px; padding: 15px 25px; }
+        .scroll-hint {
+            margin-top: 50px;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
 
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-  #loader h1,#loader h2,#loader h3 { font-size: 15vw; }
-  #main-img { height: 180px; }
-  .brawl-btn { font-size: 12px; min-width: 100px; padding: 8px 10px; }
-}
-</style>
+        /* --- MISSION --- */
+        .mission-box {
+            background: var(--glass);
+            padding: 60px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .mission-text {
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            font-weight: 200;
+            line-height: 1.4;
+            color: #e2e8f0;
+        }
+
+        .mission-text strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- TEAM GRID --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .member-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 24px;
+            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .member-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+
+        .member-name { font-weight: 600; font-size: 1.2rem; display: block; }
+        .member-role { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; display: block; }
+
+        /* --- JOIN BUTTON CARD --- */
+        .cta-card {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(0, 255, 135, 0.15) 0%, rgba(0, 255, 135, 0.05) 100%);
+            border: 2px solid var(--accent) !important;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-card:hover::after { left: 100%; }
+
+        .cta-card h3 { margin: 0; font-size: 1.8rem; color: var(--accent); }
+        .cta-card .arrow { font-size: 2rem; color: var(--accent); }
+
+        /* --- FOOTER --- */
+        .footer {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-info {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(10px); }
+        }
+
+    </style>
 </head>
 <body>
 
-<!-- PANTALLA DE CARGA -->
-<div id="loader">
-  <h1>SUP</h1>
-  <h2>ERC</h2>
-  <h3>ELL</h3>
-  <div class="progress-bar">
-    <div class="progress-bar-inner"></div>
-  </div>
-</div>
+<div class="bg-glow"></div>
 
-<!-- MENÚ PRINCIPAL -->
-<div id="main-menu">
-  <div class="top-bar">
-    <div class="player-profile" onclick="changeName()">
-      <div class="avatar-icon">👤</div>
-      <div id="p-name">PLAYER 1</div>
+<!-- NAVIGATION -->
+<nav>
+    <div class="logo">HEALTH COLLECTIVE</div>
+    <div class="nav-links">
+        <a href="#mission">Mission</a>
+        <a href="#team">Team</a>
+        <a href="https://classroom.google.com" target="_blank">Classroom</a>
     </div>
-    <div class="stats-container">
-      <div class="stat">🏆 <span id="trophies">0</span></div>
-      <div class="stat">🟡 <span id="coins">500</span></div>
-      <div class="stat">💎 <span id="gems">100</span></div>
-      <div class="stat">🟦 <span id="credits">0</span></div>
-    </div>
-  </div>
+</nav>
 
-  <div class="side-menu-left">
-    <button class="brawl-btn btn-red" onclick="alert('¡Activando Buffies!')">Buffies</button>
-    <button class="brawl-btn btn-yellow" onclick="toggleModal('modal-tienda', true)">Tienda</button>
-    <button class="brawl-btn btn-blue" onclick="toggleModal('brawlers-modal', true)">Brawlers</button>
-    <button class="brawl-btn btn-yellow" onclick="toggleModal('modal-starr', true)" style="background: #3399ff; box-shadow: 0 6px 0 #1a66b3;">Camino Starr</button>
-  </div>
+<div class="content-wrapper">
+    
+    <!-- HERO -->
+    <section class="hero visible">
+        <div class="badge">Innovation & Health</div>
+        <h1>IMPACT<br>THROUGH<br>HABITS</h1>
+        <div class="scroll-hint">Scroll down to explore</div>
+    </section>
 
-  <div class="side-menu-right">
-    <button class="brawl-btn btn-darkblue" onclick="toggleModal('modal-novedades', true)">Novedades</button>
-    <button class="brawl-btn btn-green" onclick="toggleModal('modal-amigos', true)">Amigos</button>
-    <button class="brawl-btn btn-blue" onclick="toggleModal('modal-club', true)">Club</button>
-    <button class="brawl-btn btn-cyan" onclick="toggleModal('modal-racha', true)">Racha Diaria</button>
-  </div>
+    <!-- MISSION -->
+    <section id="mission">
+        <div class="mission-box">
+            <p class="mission-text">
+                We are <strong>visionary influencers</strong> dedicated to redefining wellness. 
+                By merging digital creativity with science-backed <strong>habits</strong>, 
+                we empower our community to evolve.
+            </p>
+        </div>
+    </section>
 
-  <div class="character-display">
-    <img id="main-img" src="" alt="Brawler">
-    <h2 id="main-name">SHELLY</h2>
-  </div>
+    <!-- TEAM & CTA -->
+    <section id="team">
+        <h2 style="font-size: 2.5rem; margin-bottom: 40px; font-weight: 200;">The <span style="color: var(--accent); font-weight: 700;">Founders</span></h2>
+        <div class="team-grid">
+            <div class="member-card">
+                <span class="member-name">Alex Gomez-Lobo</span>
+                <span class="member-role">Editor</span>
+            </div>
+            <div class="member-card">
+                <span class="member-name">Pablo Ferriol Pareja</span>
+                <span class="member-role">Second editor and writer</span>
+            </div>
+            <div class="member-card">
+                <span class="member-name">Vicente Linuesa Higón</span>
+                <span class="member-role">Script writer helper</span>
+            </div>
+            <div class="member-card">
+                <span class="member-name">Daniil Derzhakov</span>
+                <span class="member-role">Script writer</span>
+            </div>
 
-  <div class="left-bottom-container">
-    <button class="brawl-btn btn-pass-tall" onclick="toggleModal('modal-pass', true)">Brawl<br>Pass</button>
-    <button class="brawl-btn btn-purple-missions" onclick="toggleModal('modal-misiones', true)">Misiones</button>
-  </div>
+            <!-- КНОПКА JOIN THE MOVEMENT -->
+            <div class="member-card cta-card" onclick="window.open('https://classroom.google.com', '_blank')">
+                <div>
+                    <h3>JOIN THE MOVEMENT</h3>
+                    <p style="margin: 5px 0 0; color: #fff; opacity: 0.6;">Access Google Classroom</p>
+                </div>
+                <div class="arrow">→</div>
+            </div>
+        </div>
+    </section>
 
-  <div class="right-bottom-container">
-    <button class="brawl-btn btn-mode" id="selected-mode-btn" onclick="selectMode('Atrapagemas')">ATRAPAGEMAS</button>
-    <button class="brawl-btn btn-battle" onclick="alert('¡Comenzando batalla!')">JUGAR</button>
-  </div>
+    <!-- FOOTER -->
+    <section class="footer">
+        <p style="font-size: 0.6rem; color: #475569; margin-top: 10px;">MADE BY DANIIL DERZHAKOV</p>
+    </section>
 
-  <!-- SUBMODOS SUPERVIVENCIA -->
-  <div id="submodes-supervivencia" class="submode-panel">
-    <button class="brawl-btn btn-solo" onclick="startSurvival('Solo')">Solo</button>
-    <button class="brawl-btn btn-duo" onclick="startSurvival('Dúo')">Dúo</button>
-    <button class="brawl-btn btn-trio" onclick="startSurvival('Trío')">Trío</button>
-  </div>
-</div>
-
-<!-- MODAL BRAWLERS -->
-<div id="brawlers-modal" class="modal">
-  <div class="card-container">
-    <span class="close-x" onclick="toggleModal('brawlers-modal', false)">×</span>
-    <h2>BRAWLERS</h2>
-    <div id="brawlers-container" style="max-height: 60vh; overflow-y: auto;"></div>
-  </div>
-</div>
-
-<!-- MODAL TIENDA -->
-<div id="modal-tienda" class="modal">
-  <div class="card-container">
-    <span class="close-x" onclick="toggleModal('modal-tienda', false)">×</span>
-    <h2>Tienda</h2>
-    <div class="grid" style="margin-top:20px;">
-      <div class="brawler-card" style="background:#FFD700;" onclick="buyItem('coins', 100)">
-        <div>💰 100 Monedas</div>
-        <button class="brawl-btn btn-green" style="margin-top:5px;">Comprar</button>
-      </div>
-      <div class="brawler-card" style="background:#B9F2FF;color:black;" onclick="buyItem('gems', 10)">
-        <div>💎 10 Gemas</div>
-        <button class="brawl-btn btn-blue" style="margin-top:5px;">Comprar</button>
-      </div>
-      <div class="brawler-card" style="background:#FF69B4;color:white;" onclick="buyItem('coins', 500)">
-        <div>💰 500 Monedas</div>
-        <button class="brawl-btn btn-green" style="margin-top:5px;">Comprar</button>
-      </div>
-      <div class="brawler-card" style="background:#FFD700;color:black;" onclick="buyItem('gems', 50)">
-        <div>💎 50 Gemas</div>
-        <button class="brawl-btn btn-blue" style="margin-top:5px;">Comprar</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-// --- PANTALLA DE CARGA ---
-let progress = 0;
-const loader = document.getElementById('loader');
-const bar = document.querySelector('.progress-bar-inner');
-let interval = setInterval(() => {
-  progress += Math.random() * 10;
-  if(progress>100) progress=100;
-  bar.style.width = progress + '%';
-  if(progress>=100) {
-    clearInterval(interval);
-    loader.classList.add('hidden');
-  }
-}, 200);
+    // 1. Анимация появления при скролле
+    const observerOptions = { threshold: 0.15 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
 
-// --- MODALES ---
-function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
 
-// --- BOTON MODO DE JUEGO ---
-function selectMode(mode){
-  document.getElementById('selected-mode-btn').textContent = mode;
-  const submodes = document.getElementById('submodes-supervivencia');
-  if(mode==='Supervivencia') submodes.classList.add('show');
-  else submodes.classList.remove('show');
-}
+    // 2. Секретный переход в игру (Shift + Ctrl + 6)
+    window.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.shiftKey && (e.key === '6' || e.code === 'Digit6')) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, ctx.currentTime);
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.1);
+            } catch(err) {}
 
-// --- SUBMODOS SUPERVIVENCIA ---
-function startSurvival(type){
-  alert('¡Has iniciado Supervivencia en modo ' + type + '!');
-  document.getElementById('submodes-supervivencia').classList.remove('show');
-}
-
-// --- CAMBIAR NOMBRE ---
-function changeName(){
-  let newName = prompt("Ingrese su nombre:");
-  if(newName) document.getElementById('p-name').textContent = newName.toUpperCase();
-}
-
-// --- BRAWLERS ---
-const brawlersContainer = document.getElementById('brawlers-container');
-const categories = {
-  "Inicial":["Shelly"],
-  "Especial":["Nita","Colt","Bull","Brock","El Primo","Barley","Poco","Rosa"],
-  "Super Especial":["Jessie","Dynamike","Tick","8-Bit","Rico","Darryl","Penny","Carl","Jacky","Gus"],
-  "Épico":["Bo","Emz","Stu","Piper","Pam","Frank","Bibi","Bea","Nani","Edgar","Griff","Grom","Bonnie","Gale","Colette","Belle","Ash","Lola","Sam","Mandy","Maisie","Hank","Pearl","Larry & Lawrie","Angelo","Berry","Shade","Meeple","Trunk"],
-  "Mítico":["Mortis","Tara","Genio","Max","Mr. P","Sprout","Byron","Squeak","Lou","Ruffs","Buz","Fang","Eve","Janet","Otis","Buster","Gray","R-T","Willow","Doug","Chuck","Charlie","Mico","Melodie","Lily","Clancy","Moe","Juju","Ollie","Finx","Lumi","Jae-Yong","Alli","Mina","Ziggy","Gigi","Glowy","Najia"],
-  "Legendario":["Spike","Crow","Leon","Sandy","Amber","Meg","Surge","Chester","Cordelius","Kit","Draco","Kenji","Pierce"],
-  "Ultra Legendario":["Kaze","Sirius"]
-};
-const colors = {
-  "Inicial":"#33CCFF",
-  "Especial":"#3FD33E",
-  "Super Especial":"#1A66CC",
-  "Épico":"#FF00FF",
-  "Mítico":"#A52019",
-  "Legendario":"#FFFF00",
-  "Ultra Legendario":"rgb(255,165,0)"
-};
-
-for(let cat in categories){
-  categories[cat].forEach(name=>{
-    let div = document.createElement('div');
-    div.className = 'brawler-card';
-    div.style.background = colors[cat];
-    div.textContent = name;
-    div.onclick = ()=>selectBrawler(name, colors[cat]);
-    brawlersContainer.appendChild(div);
-  });
-}
-
-function selectBrawler(name, color){
-  document.getElementById('main-name').textContent = name.toUpperCase();
-  document.getElementById('main-img').style.background = color;
-}
-  
-// --- TIENDA ---
-function buyItem(type, amount){
-  let el = document.getElementById(type);
-  let current = parseInt(el.textContent);
-  el.textContent = current + amount;
-  alert(`¡Has comprado ${amount} ${type === 'coins' ? 'monedas' : 'gemas'}!`);
-}
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => { 
+                window.location.href = 'game.html'; 
+            }, 500);
+        }
+    });
 </script>
+
 </body>
 </html>
